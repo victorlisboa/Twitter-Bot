@@ -1,6 +1,6 @@
 import tweepy
 from time import sleep
-from random import randint
+from random import choice
 
 # Autenticantion
 consumer_key = ''
@@ -55,7 +55,7 @@ def get_last_seen_id(op):
 def reply_to_tweets():
     last_seen_id_reply = get_last_seen_id('reply')
     mentions = api.mentions_timeline(last_seen_id_reply, tweet_mode = 'extended')  # O argumento da função é o id do ponto de partida
-
+    
     for mention in reversed(mentions):  # reversed garante que as ações serão realizadas do tweet mais recente ao mais antigo.
         last_seen_id_reply = mention.id
         if 'itabuna' in mention.full_text.lower() or 'itabocas' in mention.full_text.lower():
@@ -64,7 +64,7 @@ def reply_to_tweets():
             except:
                 pass
             api.update_status(\
-                f'@{mention.author.screen_name} {frases[randint(0, len(frases))]}',
+                f'@{mention.author.screen_name} {choice(frases)}',
                 last_seen_id_reply)  # Responde o tweet com esta string
 
     store_last_seen_id(last_seen_id_reply, 'reply')  # Salva o último ID visto
