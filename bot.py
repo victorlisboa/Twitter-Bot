@@ -66,6 +66,8 @@ def reply_to_tweets():
             api.update_status(\
                 f'@{mention.author.screen_name} {choice(frases)}',
                 last_seen_id_reply)  # Responde o tweet com esta string
+            
+            print(f'@{mention.author.screen_name} {choice(frases)}') # Monitoramento no terminal
 
     store_last_seen_id(last_seen_id_reply, 'reply')  # Salva o último ID visto
 
@@ -88,7 +90,9 @@ def retweet():
                     api.retweet(search.id)
                 except:
                     pass
-                
+            
+            print(search.text.lower())  # Monitoramento no terminal
+            
     store_last_seen_id(last_seen_id_rt, 'rt')
 
 
