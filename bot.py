@@ -78,7 +78,7 @@ def retweet():
     for search in reversed(searches):
         last_seen_id_rt = search.id
         flag = False
-        if 'itabuna' in search.text.lower() or 'itabocas' in search.text.lower()
+        if 'itabuna' in search.text.lower() or 'itabocas' in search.text.lower()\
         and search.author.screen_name != 'itabuner':  # Se tem itabuna no tweet e ele não é meu
             try:
                 if search.entities['urls'][0]['expanded_url'][8:15] == 'twitter':
