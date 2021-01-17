@@ -98,6 +98,6 @@ def retweet():
 
 while True:
     retweet()
-    reply_to_tweets()
+    #reply_to_tweets()
     sleep(15)
 
