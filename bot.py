@@ -72,17 +72,17 @@ def get_last_seen_id(op):
     if op == 'reply':
         cursor.execute("SELECT * FROM IDs")
         id = cursor.fetchall()
-        print(str(id)+'REPLY')
+        print(str(id[0][0])+'REPLY')
         cursor.close()
         cnx.close()
-        return id[0][0]
+        return int(id[0][0])
     elif op == 'rt':
         cursor.execute("SELECT * FROM IDs")
         id = cursor.fetchall()
-        print(str(id)+'RT')
+        print(str(id[0][1])+'RT')
         cursor.close()
         cnx.close()
-        return id[0][1]
+        return int(id[0][1])
     
 def reply_to_tweets():
     last_seen_id_reply = get_last_seen_id('reply')
