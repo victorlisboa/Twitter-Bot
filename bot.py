@@ -72,14 +72,14 @@ def get_last_seen_id(op):
     if op == 'reply':
         cursor.execute("SELECT * FROM IDs")
         id = cursor.fetchall()
-        print(id+'REPLY')
+        print(str(id)+'REPLY')
         cursor.close()
         cnx.close()
         return id[0][0]
     elif op == 'rt':
         cursor.execute("SELECT * FROM IDs")
         id = cursor.fetchall()
-        print(id+'RT')
+        print(str(id)+'RT')
         cursor.close()
         cnx.close()
         return id[0][1]
