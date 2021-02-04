@@ -5,9 +5,9 @@ from mysql.connector import connection
 import os
 
 def create_con():
-    cnx = connection.MySQLConnection(user='bb9ec0ae9cfec0', password='68704f35',
-                              host='us-cdbr-east-03.cleardb.com',
-                              database='heroku_4039ed9669d1447',
+    cnx = connection.MySQLConnection(user=os.environ.get('user_bd'), password=os.environ.get('pass_bd'),
+                              host=os.environ.get('host_bd'),
+                              database=os.environ.get('db_bd'),
                               use_pure=False)
     return cnx
 
@@ -77,14 +77,14 @@ def get_last_seen_id(op):
     if op == 'reply':
         cursor.execute("SELECT * FROM IDs")
         id = cursor.fetchall()
-        print(str(id[0][0])+'REPLY')
+        #print(str(id[0][0])+'REPLY')
         cursor.close()
         cnx.close()
         return int(id[0][0])
     elif op == 'rt':
         cursor.execute("SELECT * FROM IDs")
         id = cursor.fetchall()
-        print(str(id[0][1])+'RT')
+        #print(str(id[0][1])+'RT')
         cursor.close()
         cnx.close()
         return int(id[0][1])
