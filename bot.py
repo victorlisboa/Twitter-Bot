@@ -48,23 +48,27 @@ frases = ['Você disse Itabuna??? A melhor cidade do mundo!? O paraíso brasilei
 def store_last_seen_id(last_seen_id, op):
     '''Escreve o último ID visto no arquivo correspondente.'''
     if op == 'reply':
+        print(last_seen_id, 'id que vai ser salvo replay')
         cnx = create_con()
         cursor = cnx.cursor()
         cursor.execute("SELECT * FROM IDs")
-        cursor.fetchall()
+        antes = cursor.fetchall()
+        print(antes, 'ids salvos no bd')
         cursor.execute(f"UPDATE IDs SET ID_REPLY = {last_seen_id} WHERE nome = 'IDs'")
         id = cursor.fetchall()
-        print(id, 'SALVADO')
+        print(id, ' novo id no banco')
         cursor.close()
         cnx.close()
     elif op == 'rt':
+        print(last_seen_id, 'id que vai ser salvo rt')
         cnx = create_con()
         cursor = cnx.cursor()
         cursor.execute("SELECT * FROM IDs")
         cursor.fetchall()
-        cursor.execute(f"UPDATE IDs SET ID_RT = {last_seen_id} WHERE nome = 'IDs'")
+        antes = cursor.execute(f"UPDATE IDs SET ID_RT = {last_seen_id} WHERE nome = 'IDs'")
+        print(antes, 'ids salvos no bd')
         id = cursor.fetchall()
-        print(id, 'SALVADO')
+        print(id, ' novo id no banco')
         cursor.close()
         cnx.close()
 
@@ -100,8 +104,8 @@ def reply_to_tweets():
         if 'itabuna' in mention.full_text.lower() or 'itabocas' in mention.full_text.lower():
             try:
                 api.create_favorite(mention.id)
-            except:
-                pass
+            except tweepy.TweepError:
+                print('deu erro')
             api.update_status(\
                 f'@{mention.author.screen_name} {choice(frases)}',
                 last_seen_id_reply)  # Responde o tweet com esta string
