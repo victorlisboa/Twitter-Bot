@@ -53,18 +53,20 @@ def store_last_seen_id(last_seen_id, op):
         cursor.execute("SELECT * FROM IDs")
         cursor.fetchall()
         cursor.execute(f"UPDATE IDs SET ID_REPLY = {last_seen_id} WHERE nome = 'IDs'")
+        id = cursor.fetchall()
+        print(id, 'SALVADO')
         cursor.close()
         cnx.close()
-        print(last_seen_id)
     elif op == 'rt':
         cnx = create_con()
         cursor = cnx.cursor()
         cursor.execute("SELECT * FROM IDs")
         cursor.fetchall()
         cursor.execute(f"UPDATE IDs SET ID_RT = {last_seen_id} WHERE nome = 'IDs'")
+        id = cursor.fetchall()
+        print(id, 'SALVADO')
         cursor.close()
         cnx.close()
-        print(last_seen_id)
 
 
 def get_last_seen_id(op):
@@ -89,8 +91,8 @@ def get_last_seen_id(op):
     
 def reply_to_tweets():
     last_seen_id_reply = get_last_seen_id('reply')
-    print(last_seen_id_reply)
-    print(type(last_seen_id_reply))
+    #print(last_seen_id_reply)
+    #print(type(last_seen_id_reply))
     mentions = api.mentions_timeline(last_seen_id_reply, tweet_mode = 'extended')  # O argumento da função é o id do ponto de partida
     
     for mention in reversed(mentions):  # reversed garante que as ações serão realizadas do tweet mais recente ao mais antigo.
