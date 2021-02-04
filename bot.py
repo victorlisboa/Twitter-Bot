@@ -48,7 +48,7 @@ frases = ['Você disse Itabuna??? A melhor cidade do mundo!? O paraíso brasilei
 def store_last_seen_id(last_seen_id, op):
     '''Escreve o último ID visto no arquivo correspondente.'''
     if op == 'reply':
-        print(last_seen_id, 'id que vai ser salvo replay')
+        #print(last_seen_id, 'id que vai ser salvo replay')
         cnx = create_con()
         cursor = cnx.cursor()
         cursor.execute("SELECT * FROM IDs")
@@ -58,7 +58,7 @@ def store_last_seen_id(last_seen_id, op):
         cursor.close()
         cnx.close()
     elif op == 'rt':
-        print(last_seen_id, 'id que vai ser salvo rt')
+        #print(last_seen_id, 'id que vai ser salvo rt')
         cnx = create_con()
         cursor = cnx.cursor()
         cursor.execute("SELECT * FROM IDs")
