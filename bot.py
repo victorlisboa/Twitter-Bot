@@ -2,6 +2,7 @@ import tweepy
 from time import sleep
 from random import choice
 from mysql.connector import connection
+import os
 
 def create_con():
     cnx = connection.MySQLConnection(user='bb9ec0ae9cfec0', password='68704f35',
@@ -12,18 +13,20 @@ def create_con():
 
 
 # Autenticantion
-consumer_key = ''
-consumer_secret = ''
-access_token = ''
-access_token_secret = ''
+consumer_key = os.environ.get('consumer_key')
+consumer_secret = os.environ.get('consumer_secret')
+access_token = os.environ.get('access_token')
+access_token_secret = os.environ.get('access_token_secret')
 
 keys = [consumer_key, consumer_secret, access_token, access_token_secret]
 
+'''
 with open('API_info.txt') as f:
     text = f.readlines()
     for line in range(4):
         keys[line] = text[line].rstrip('\n')
 consumer_key, consumer_secret, access_token, access_token_secret = [i for i in keys]
+'''
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -86,6 +89,8 @@ def get_last_seen_id(op):
     
 def reply_to_tweets():
     last_seen_id_reply = get_last_seen_id('reply')
+    print(last_seen_id_reply)
+    print(type(last_seen_id_reply))
     mentions = api.mentions_timeline(last_seen_id_reply, tweet_mode = 'extended')  # O argumento da função é o id do ponto de partida
     
     for mention in reversed(mentions):  # reversed garante que as ações serão realizadas do tweet mais recente ao mais antigo.
@@ -131,6 +136,6 @@ def retweet():
 
 while True:
     retweet()
-    #reply_to_tweets()
+    reply_to_tweets()
     sleep(15)
 
