@@ -57,6 +57,7 @@ def store_last_seen_id(last_seen_id, op):
         cursor.execute(f"UPDATE IDs SET ID_REPLY = {last_seen_id} WHERE nome = 'IDs'")
         id = cursor.fetchall()
         print(id, ' novo id no banco')
+        cnx.commit()
         cursor.close()
         cnx.close()
     elif op == 'rt':
@@ -69,6 +70,7 @@ def store_last_seen_id(last_seen_id, op):
         print(antes, 'ids salvos no bd')
         id = cursor.fetchall()
         print(id, ' novo id no banco')
+        cnx.commit()
         cursor.close()
         cnx.close()
 
@@ -121,7 +123,7 @@ def retweet():
     for search in reversed(searches):
         last_seen_id_rt = search.id
         flag = False
-        if 'itabuna' in search.text.lower() or 'itabocas' in search.text.lower()\
+        if ('itabuna' in search.text.lower() or 'itabocas' in search.text.lower())\
         and search.author.screen_name != 'itabuner':  # Se tem itabuna no tweet e ele não é meu
             try:
                 if search.entities['urls'][0]['expanded_url'][8:15] == 'twitter':
