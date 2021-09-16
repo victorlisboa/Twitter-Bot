@@ -5,35 +5,27 @@ from mysql.connector import connection
 import os
 
 def create_con():
+    '''Cria uma conexão com o banco de dados
+       Creates a conextion to the data base'''
     cnx = connection.MySQLConnection(user=os.environ.get('user_bd'), password=os.environ.get('pass_bd'),
                               host=os.environ.get('host_bd'),
                               database=os.environ.get('db_bd'),
                               use_pure=False)
     return cnx
 
-
-# Autenticantion
+# Autenticação / Autenticantion
 consumer_key = os.environ.get('consumer_key')
 consumer_secret = os.environ.get('consumer_secret')
 access_token = os.environ.get('access_token')
 access_token_secret = os.environ.get('access_token_secret')
 
 keys = [consumer_key, consumer_secret, access_token, access_token_secret]
-
-'''
-with open('API_info.txt') as f:
-    text = f.readlines()
-    for line in range(4):
-        keys[line] = text[line].rstrip('\n')
-consumer_key, consumer_secret, access_token, access_token_secret = [i for i in keys]
-'''
-
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-# Frases
+# Frases / Sentences
 frases = ['Você disse Itabuna??? A melhor cidade do mundo!? O paraíso brasileiro...',
           'Itabuna é simplesmente incrível! Lugar melhor nesse país não há.',
           'A capital do cacau... Itabuna é realmente tudo, não é mesmo?',
@@ -46,7 +38,8 @@ frases = ['Você disse Itabuna??? A melhor cidade do mundo!? O paraíso brasilei
           ]
 
 def store_last_seen_id(last_seen_id, op):
-    '''Escreve o último ID visto no arquivo correspondente.'''
+    '''Escreve o último ID visto no arquivo correspondente.
+       Writes last ID seen in the correspondent file.'''
     if op == 'reply':
         #print(last_seen_id, 'id que vai ser salvo replay')
         cnx = create_con()
@@ -70,7 +63,8 @@ def store_last_seen_id(last_seen_id, op):
 
 
 def get_last_seen_id(op):
-    '''Recupera o último ID visto'''
+    '''Pega o último ID visto.
+       Gets last ID seen.'''
     cnx = create_con()
     cursor = cnx.cursor()
 
@@ -101,7 +95,7 @@ def reply_to_tweets():
             try:
                 api.create_favorite(mention.id)
             except tweepy.TweepError:
-                print('deu erro')
+                print('DEU ERRO!')
             api.update_status(\
                 f'@{mention.author.screen_name} {choice(frases)}',
                 last_seen_id_reply)  # Responde o tweet com esta string
@@ -118,7 +112,7 @@ def retweet():
         last_seen_id_rt = search.id
         flag = False
         if ('itabuna' in search.text.lower() or 'itabocas' in search.text.lower())\
-        and search.author.screen_name != 'itabuner':  # Se tem itabuna no tweet e ele não é meu
+        and search.author.screen_name != 'itabuner':  # Se tem "itabuna" no tweet e ele não é do bot
             try:
                 if search.entities['urls'][0]['expanded_url'][8:15] == 'twitter':
                     flag = True
@@ -140,4 +134,3 @@ while True:
     retweet()
     reply_to_tweets()
     sleep(15)
-
