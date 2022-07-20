@@ -1,2 +1,4 @@
 Bot feito para Twitter desenvolvido na linguagem Python.
-O Bot dá RT em tweets que falem sobre Itabuna, cidade do interior da Bahia. Além disso, ele responde com frases aleatórias e dá like em tweets que o mencionam e falem sobre itabuna.
+O Bot dá RT em tweets que falem sobre Itabuna, cidade do interior da Bahia. Além disso, ele também responde tweets que o mencionam e citem itabuna com diferentes frases escolhidas aleatoriamente.
+
+Link para o perfil: https://twitter.com/itabuner
